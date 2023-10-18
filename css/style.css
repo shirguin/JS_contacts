@@ -9,18 +9,20 @@ body {
 
 .wrapper {
     display: flex;
+    gap: 2px;
     justify-content: center;
 }
 
 .left__block {
     width: 70%;
     border: 1px solid black;
-
+    margin: 2px;
 }
 
 .right__block {
     width: 30%;
     border: 1px solid black;
+    margin: 2px;
 }
 
 /* contacts */
@@ -35,9 +37,7 @@ body {
 .contacts {
     display: flex;
     flex-direction: column;
-    height: 500px;
-
-
+    height: 600px;
 }
 
 .contact__item {
@@ -83,18 +83,56 @@ body {
 .contact__telephone {
     width: 15%;
 }
+.icon__button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+}
 
-.icon {
+.icon__edit{
     width: 18px;
     height: 18px;
     margin-left: 3px;
     margin-right: 3px;
 }
 
+.icon__edit:hover{
+    width: 24px;
+    height: 24px;
+}
+
+.icon__delete{
+    width: 18px;
+    height: 18px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.icon__delete:hover{
+    width: 24px;
+    height: 24px;
+}
+
+.icon__add{
+    width: 18px;
+    height: 18px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.icon__add:hover{
+    width: 24px;
+    height: 24px;
+}
+
 .block__button {
     display: flex;
-    justify-content: center;
+    justify-content: right;
     align-items: center;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .btn {
@@ -112,6 +150,17 @@ body {
     background-color: rgb(33, 10, 0);
 }
 
+/* Модальное окно */
+#cover-div {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9000;
+    width: 100%;
+    height: 100%;
+    background-color: gray;
+    opacity: 0.8;
+  }
 
 
 /* addContacts.html */
