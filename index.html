@@ -11,7 +11,18 @@
       <div class="left__block">
         <h1 class="title">Контакты</h1>
 
-        <div class="contacts"></div>
+        <div class="contacts">
+
+          <div class="contact__item">
+            <div class="column contact__name">Имя</div>
+            <div class="column contact__surname">Фамилия</div>
+            <div class="column contact__position">Должность</div>
+            <div class="column contact__firmName">Фирма</div>
+            <div class="column contact__email">Email</div>
+            <div class="column contact__telephone">Телефон</div>
+          </div>
+
+        </div>
 
         <div class="block__button">
           <div class="icon__button">
@@ -27,47 +38,7 @@
 
     <div class="modal">
       <div class="modal__main">
-        <div class="form__container">
-          <h1 class="title">Добавление контакта</h1>
-          <div class="forma">
-            <div class="form__item">
-              <p class="label">Имя</p>
-              <input class="textInput" type="text" id="name" />
-            </div>
-
-            <div class="form__item">
-              <p class="label">Фамилия</p>
-              <input class="textInput" type="text" id="surname" />
-            </div>
-
-            <div class="form__item">
-              <p class="label">Должность</p>
-              <input class="textInput" type="text" id="position" />
-            </div>
-
-            <div class="form__item">
-              <p class="label">Фирма</p>
-              <input class="textInput" type="text" id="firmName" />
-            </div>
-
-            <div class="form__item">
-              <p class="label">Email</p>
-              <input class="textInput" type="email" id="email" />
-            </div>
-
-            <div class="form__item">
-              <lp class="label">Телефон</lp>
-              <input class="textInput" type="text" id="telephone" />
-            </div>
-
-            <div class="blockButtons">
-              <button class="btn saveContact">Добавить</button>
-              <button class="btn exit">Выход</button>
-            </div>
-          </div>
-        </div>
-
-        <button class="modal__close">&#10006;</button>
+        <div class="modal__content"></div>
       </div>
     </div>
     <script src="script.js"></script>
