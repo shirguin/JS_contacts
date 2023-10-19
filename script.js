@@ -30,15 +30,6 @@ listContacts.forEach((contact) => {
   divContactsEl.append(newContactEl);
 });
 
-//Добавление контакта
-const addButtonEl = document.querySelector(".icon__add");
-
-addButtonEl.addEventListener("click", () => {
-  /*   window.location.replace("./addContact.html"); */
-
-  showCover();
-});
-
 //Редактирование контакта
 const editButtonEls = document.querySelectorAll(".icon__edit");
 
@@ -95,19 +86,73 @@ function getIndex(divItemEl) {
   }
 }
 
-// Показать полупрозрачный DIV, чтобы затенить страницу
-// (форма располагается не внутри него, а рядом, потому что она не должна быть полупрозрачной)
-function showCover() {
-  let coverDiv = document.createElement("div");
-  coverDiv.id = "cover-div";
+//Модальное окно добавления контакта
+const addButtonEl = document.querySelector(".icon__add");
+const modalEl = document.querySelector(".modal");
 
-  // убираем возможность прокрутки страницы во время показа модального окна с формой
-  document.body.style.overflowY = "hidden";
+modalEl.style.cssText = `
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 300ms easy-in-out;
+`;
 
-  document.body.append(coverDiv);
-}
+//Закрытие модального окна
+const closeModal = (event) => {
+  const target = event.target;
 
-function hideCover() {
-  document.getElementById("cover-div").remove();
-  document.body.style.overflowY = "";
-}
+  if (target === modalEl || target.closest(".modal__close")) {
+    modalEl.style.opacity = 0;
+
+    setTimeout(() => {
+      modalEl.style.visibility = "hidden";
+    }, 300);
+  }
+};
+
+//Открытие модального окна
+const openModal = () => {
+  modalEl.style.visibility = "visible";
+  modalEl.style.opacity = 1;
+};
+
+addButtonEl.addEventListener("click", openModal);
+modalEl.addEventListener("click", closeModal);
+
+//Добавление контакта
+const addContactButtonEl = document.querySelector(".saveContact");
+const exitButtonEl = document.querySelector(".exit");
+const nameInputEl = document.querySelector("#name");
+const surnameInputEl = document.querySelector("#surname");
+const positionInputEl = document.querySelector("#position");
+const firmNameInputEl = document.querySelector("#firmName");
+const emailInputEl = document.querySelector("#email");
+const telephoneInputEl = document.querySelector("#telephone");
+
+addContactButtonEl.addEventListener("click", () => {
+  let newContact = {
+    name: nameInputEl.value,
+    surname: surnameInputEl.value,
+    position: positionInputEl.value,
+    firmName: firmNameInputEl.value,
+    email: emailInputEl.value,
+    telephone: telephoneInputEl.value,
+  };
+
+  console.log(newContact);
+
+  let listContacts = [];
+
+  if (localStorage.getItem("contacts") !== null) {
+    listContacts = JSON.parse(localStorage.getItem("contacts"));
+  }
+
+  listContacts.push(newContact);
+  localStorage.setItem("contacts", JSON.stringify(listContacts));
+  window.location.replace("./index.html");
+});
+
+//Выход из формы модального окна
+exitButtonEl.addEventListener("click", () => {
+  closeModal();
+});
