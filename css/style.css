@@ -87,7 +87,7 @@ body {
 }
 
 .contact__surname {
-    width: 14%;
+    width: 15%;
 }
 
 .contact__position {
@@ -95,19 +95,19 @@ body {
 }
 
 .contact__firmName {
-    width: 19%;
+    width: 20%;
 }
 
 .contact__email {
-    width: 24%;
+    width: 25%;
 }
 
 .contact__telephone {
-    width: 14%;
+    width: 15%;
 }
 
 .item__buttons {
-    width: 5%;
+    width: 60px;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -124,7 +124,7 @@ body {
 .icon__edit {
     width: 18px;
     height: 18px;
-
+    cursor: pointer;
 }
 
 .icon__edit:hover {
@@ -135,7 +135,7 @@ body {
 .icon__delete {
     width: 18px;
     height: 18px;
-
+    cursor: pointer;
 }
 
 .icon__delete:hover {
@@ -146,7 +146,7 @@ body {
 .icon__add {
     width: 18px;
     height: 18px;
-
+    cursor: pointer;
 }
 
 .icon__add:hover {
@@ -235,4 +235,36 @@ body {
     justify-content: center;
     gap: 80px;
     margin-top: 50px;
+}
+
+/* Планы */
+.plans {
+    display: flex;
+    flex-direction: column;
+    height: 85dvh;
+}
+
+.plan__item {
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+    margin-right: 5px;
+
+}
+
+.plan__date {
+    width: 20%;
+    border-left: 1px dotted rgb(33, 10, 0);
+}
+
+.plan__target {
+    width: 80%;
+}
+
+.planText {
+    resize: none;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: rgb(33, 10, 0);
+    font-size: 16px;
 }

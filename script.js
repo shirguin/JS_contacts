@@ -27,7 +27,13 @@ headingEls.forEach((heading) => {
     activeEl.classList.remove("active");
     heading.classList.add("active");
 
-    //Остановился здесь!!!
+    //Находим ключ для сортировки
+    const key = heading.classList[1].slice(9);
+    sortlistContacts(key);
+
+    localStorage.setItem("contacts", JSON.stringify(listContacts));
+    localStorage.setItem("contacts_key_sort", key);
+    location.reload();
   });
 });
 
@@ -83,6 +89,7 @@ function getIndex(divItemEl) {
   }
 }
 
+//Сортировка массива контактов
 function sortlistContacts(key) {
   listContacts.sort((contact1, contact2) =>
     contact1[key] > contact2[key] ? 1 : -1
@@ -118,7 +125,7 @@ const clearModal = () => {
 };
 
 //Добавление контакта
-const addButtonEl = document.querySelector(".icon__add");
+const addButtonEl = document.querySelector(".addContact");
 addButtonEl.addEventListener("click", () => {
   //Вставляем в модальное окно форму для ввода нового контакта
   const html = `
@@ -126,32 +133,32 @@ addButtonEl.addEventListener("click", () => {
           <div class="forma">
             <div class="form__item">
               <p class="label">Имя</p>
-              <input class="textInput" type="text" id="name" />
+              <input class="textInput" type="text" id="name" autocomplete="off"/>
             </div>
 
             <div class="form__item">
               <p class="label">Фамилия</p>
-              <input class="textInput" type="text" id="surname" />
+              <input class="textInput" type="text" id="surname" autocomplete="off"/>
             </div>
 
             <div class="form__item">
               <p class="label">Должность</p>
-              <input class="textInput" type="text" id="position" />
+              <input class="textInput" type="text" id="position" autocomplete="off"/>
             </div>
 
             <div class="form__item">
               <p class="label">Фирма</p>
-              <input class="textInput" type="text" id="firmName" />
+              <input class="textInput" type="text" id="firmName" autocomplete="off"/>
             </div>
 
             <div class="form__item">
               <p class="label">Email</p>
-              <input class="textInput" type="email" id="email" />
+              <input class="textInput" type="email" id="email" autocomplete="off"/>
             </div>
 
             <div class="form__item">
               <lp class="label">Телефон</lp>
-              <input class="textInput" type="text" id="telephone" />
+              <input class="textInput" type="text" id="telephone" autocomplete="off"/>
             </div>
 
             <div class="blockButtons">
@@ -185,31 +192,22 @@ addButtonEl.addEventListener("click", () => {
       telephone: telephoneInputEl.value,
     };
 
-    let listContacts = [];
-
-    if (localStorage.getItem("contacts") !== null) {
-      listContacts = JSON.parse(localStorage.getItem("contacts"));
-    }
-
     listContacts.push(newContact);
 
-    let keySortListContacts = "surname";
-
-    if (localStorage.getItem("contacts_key_sort") !== null) {
-      keySortListContacts = getItem("contacts_key_sort");
+    if (keySortListContacts === "") {
+      keySortListContacts = "surname";
     }
 
     //сортируем массив
     sortlistContacts(keySortListContacts);
 
     localStorage.setItem("contacts", JSON.stringify(listContacts));
-    localStorage.setItem("contacts_key_sort", keySortListContacts);
 
     //Очищаем модальное окно
     clearModal();
 
     //Обновляем страницу
-    window.location.replace("./index.html");
+    location.reload();
   });
 
   //Выход из формы модального окна
@@ -233,32 +231,32 @@ editButtonEls.forEach((button) => {
           <div class="forma">
             <div class="form__item">
               <p class="label">Имя</p>
-              <input class="textInput" type="text" id="name" />
+              <input class="textInput" type="text" id="name" autocomplete="off"/>
             </div>
 
             <div class="form__item">
               <p class="label">Фамилия</p>
-              <input class="textInput" type="text" id="surname" />
+              <input class="textInput" type="text" id="surname" autocomplete="off"/>
             </div>
 
             <div class="form__item">
               <p class="label">Должность</p>
-              <input class="textInput" type="text" id="position" />
+              <input class="textInput" type="text" id="position" autocomplete="off"/>
             </div>
 
             <div class="form__item">
               <p class="label">Фирма</p>
-              <input class="textInput" type="text" id="firmName" />
+              <input class="textInput" type="text" id="firmName" autocomplete="off"/>
             </div>
 
             <div class="form__item">
               <p class="label">Email</p>
-              <input class="textInput" type="email" id="email" />
+              <input class="textInput" type="email" id="email" autocomplete="off"/>
             </div>
 
             <div class="form__item">
               <lp class="label">Телефон</lp>
-              <input class="textInput" type="text" id="telephone" />
+              <input class="textInput" type="text" id="telephone" autocomplete="off"/>
             </div>
 
             <div class="blockButtons">
@@ -302,13 +300,16 @@ editButtonEls.forEach((button) => {
 
       listContacts[indexEditContact] = newContact;
 
+      //сортируем массив
+      sortlistContacts(keySortListContacts);
+
       localStorage.setItem("contacts", JSON.stringify(listContacts));
 
       //Очищаем модальное окно
       clearModal();
 
       //Обновляем страницу
-      window.location.replace("./index.html");
+      location.reload();
     });
 
     //Выход из формы модального окна
@@ -333,32 +334,32 @@ deleteButtonEls.forEach((button) => {
           <div class="forma">
             <div class="form__item">
               <p class="label">Имя</p>
-              <input class="textInput" type="text" id="name" />
+              <input class="textInput" type="text" id="name" autocomplete="off"/>
             </div>
 
             <div class="form__item">
               <p class="label">Фамилия</p>
-              <input class="textInput" type="text" id="surname" />
+              <input class="textInput" type="text" id="surname" autocomplete="off"/>
             </div>
 
             <div class="form__item">
               <p class="label">Должность</p>
-              <input class="textInput" type="text" id="position" />
+              <input class="textInput" type="text" id="position" autocomplete="off"/>
             </div>
 
             <div class="form__item">
               <p class="label">Фирма</p>
-              <input class="textInput" type="text" id="firmName" />
+              <input class="textInput" type="text" id="firmName" autocomplete="off"/>
             </div>
 
             <div class="form__item">
               <p class="label">Email</p>
-              <input class="textInput" type="email" id="email" />
+              <input class="textInput" type="email" id="email" autocomplete="off"/>
             </div>
 
             <div class="form__item">
               <lp class="label">Телефон</lp>
-              <input class="textInput" type="text" id="telephone" />
+              <input class="textInput" type="text" id="telephone" autocomplete="off"/>
             </div>
 
             <div class="blockButtons">
@@ -401,5 +402,66 @@ deleteButtonEls.forEach((button) => {
       clearModal();
       closeModal();
     });
+  });
+});
+
+//Правый блок (Планы)
+let listPlans = [];
+let keySortListPlans = "";
+
+//Получаем список запланированных дел из localStorage
+if (localStorage.getItem("plans") !== null) {
+  listPlans = JSON.parse(localStorage.getItem("plans"));
+}
+
+//Получаем ключ по которому отсортированы планы
+if (localStorage.getItem("plans_key_sort") !== null) {
+  keySortListPlans = localStorage.getItem("plans_key_sort");
+
+  const divPlansHeadersEl = document.querySelector(".plan__headers");
+  const sortedColumnHeadingEl = divPlansHeadersEl.querySelector(
+    ".plan__" + keySortListPlans
+  );
+  sortedColumnHeadingEl.classList.add("active");
+}
+
+const plans = document.querySelector(".plans");
+
+const addPlanButtonEl = document.querySelector(".addPlan");
+addPlanButtonEl.addEventListener("click", () => {
+  //Вставляем в модальное окно форму для ввода нового контакта
+  const html = `
+    <h1 class="title">Добавление нового дела</h1>
+    <div class="forma">
+      <div class="form__item">
+        <textarea class="planText" cols="50" rows="10" autocomplete="off"></textarea>
+      </div>
+
+      <div class="blockButtons">
+        <button class="btn addPlanBtn">Добавить</button>
+        <button class="btn exitPlanBtn">Выход</button>
+      </div>
+    </div>
+`;
+  modalContentEl.innerHTML = html;
+
+  //открываем модальное окно
+  openModal();
+
+  //Добавление нового плана
+  const savePlanButtonEl = document.querySelector(".addPlanBtn");
+  const exitPlanButtonEl = document.querySelector(".exitPlanBtn");
+  const textareaEl = document.querySelector(".planText");
+
+  savePlanButtonEl.addEventListener("click", () => {
+    const date = new Date;
+/*     Остановился здесь!!! */
+    console.log(date);
+  });
+
+  //Выход из формы модального окна
+  exitPlanButtonEl.addEventListener("click", () => {
+    clearModal();
+    closeModal();
   });
 });
