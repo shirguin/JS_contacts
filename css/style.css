@@ -4,7 +4,7 @@
 }
 
 body {
-    background-color: antiquewhite;
+    background-color: rgb(251, 248, 244);
 }
 
 .wrapper {
@@ -32,21 +32,39 @@ body {
     text-align: center;
     margin-top: 40px;
     margin-bottom: 40px;
-    height: 5vh;
+}
+
+.heading {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    text-align: center;
+    background-color: rgb(176, 169, 169);
+    height: 18px;
+    border-right: 1px dotted rgb(33, 10, 0);
+    border-bottom: 1px dotted rgb(33, 10, 0);
+    border-top: 1px dotted rgb(33, 10, 0);
+    cursor: pointer;
+    font-weight: bold;
+    color: rgb(33, 10, 0);
+}
+
+.heading:hover {
+    background-color: rgb(193, 136, 110);
+}
+
+.active {
+    background-color: rgb(193, 136, 110);
 }
 
 .contacts {
     display: flex;
     flex-direction: column;
-    height: 80vh;
+    height: 85dvh;
 }
 
 .contact__item {
     display: flex;
     align-items: center;
-    gap: 2px;
-    margin-top: 2px;
-
     margin-left: 5px;
     margin-right: 5px;
 
@@ -56,18 +74,20 @@ body {
     padding-top: 3px;
     padding-bottom: 3px;
     text-align: center;
-    border: 1px dotted rgb(33, 10, 0);
     background-color: rgb(251, 251, 233);
     height: 18px;
     overflow-x: hidden;
+    border-right: 1px dotted rgb(33, 10, 0);
+    border-bottom: 1px dotted rgb(33, 10, 0);
 }
 
 .contact__name {
-    width: 15%;
+    width: 14%;
+    border-left: 1px dotted rgb(33, 10, 0);
 }
 
 .contact__surname {
-    width: 15%;
+    width: 14%;
 }
 
 .contact__position {
@@ -75,15 +95,22 @@ body {
 }
 
 .contact__firmName {
-    width: 20%;
+    width: 19%;
 }
 
 .contact__email {
-    width: 30%;
+    width: 24%;
 }
 
 .contact__telephone {
-    width: 15%;
+    width: 14%;
+}
+
+.item__buttons {
+    width: 5%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .icon__button {
@@ -97,8 +124,7 @@ body {
 .icon__edit {
     width: 18px;
     height: 18px;
-    margin-left: 3px;
-    margin-right: 3px;
+
 }
 
 .icon__edit:hover {
@@ -109,8 +135,7 @@ body {
 .icon__delete {
     width: 18px;
     height: 18px;
-    margin-left: 3px;
-    margin-right: 3px;
+
 }
 
 .icon__delete:hover {
@@ -121,8 +146,7 @@ body {
 .icon__add {
     width: 18px;
     height: 18px;
-    margin-left: 3px;
-    margin-right: 3px;
+
 }
 
 .icon__add:hover {

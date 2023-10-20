@@ -1,14 +1,37 @@
 let listContacts = [];
+let keySortListContacts = "";
 
 //Получаем список контактов из localStorage
 if (localStorage.getItem("contacts") !== null) {
   listContacts = JSON.parse(localStorage.getItem("contacts"));
 }
 
-const divContactsEl = document.querySelector(".contacts");
+//Получаем ключ по которому отсортированы контакты
+if (localStorage.getItem("contacts_key_sort") !== null) {
+  keySortListContacts = localStorage.getItem("contacts_key_sort");
 
-//Добавляем заголовки с фильтрами.
-const headersContactEl = ``;
+  const divHeadersEl = document.querySelector(".headers");
+  const sortedColumnHeadingEl = divHeadersEl.querySelector(
+    ".contact__" + keySortListContacts
+  );
+  sortedColumnHeadingEl.classList.add("active");
+}
+
+//Навешиваем сортировку на заголовки столбцов
+const headersEl = document.querySelector(".headers");
+const headingEls = headersEl.querySelectorAll(".heading");
+
+headingEls.forEach((heading) => {
+  heading.addEventListener("click", () => {
+    const activeEl = headersEl.querySelector(".active");
+    activeEl.classList.remove("active");
+    heading.classList.add("active");
+
+    //Остановился здесь!!!
+  });
+});
+
+const divContactsEl = document.querySelector(".contacts");
 
 //Выводим контакты на экран
 listContacts.forEach((contact) => {
@@ -22,29 +45,17 @@ listContacts.forEach((contact) => {
         <div class="column contact__email">${contact.email}</div>
         <div class="column contact__telephone">${contact.telephone}</div>
 
-        <div class="icon__button">
-            <img class="icon__edit" src="./img/edit.svg" alt="iconedit" />
-        </div>
+        <div class="item__buttons">
+          <div class="icon__button">
+              <img class="icon__edit" src="./img/edit.svg" alt="iconedit" />
+          </div>
 
-        <div class="icon__button">
-            <img class="icon__delete" src="./img/delete.svg" alt="iconedit" />
+          <div class="icon__button">
+              <img class="icon__delete" src="./img/delete.svg" alt="iconedit" />
+          </div>
         </div>
     `;
   divContactsEl.append(newContactEl);
-});
-
-//Удаление контакта
-const deleteButtonEls = document.querySelectorAll(".icon__delete");
-
-deleteButtonEls.forEach((button) => {
-  button.addEventListener("click", (e) => {
-    const divItemEl = e.target.closest(".contact__item");
-    let index = getIndex(divItemEl);
-    listContacts.splice(index, 1);
-    localStorage.setItem("contacts", JSON.stringify(listContacts));
-
-    location.reload();
-  });
 });
 
 //Получение индекса контакта в списке контактов
@@ -70,6 +81,12 @@ function getIndex(divItemEl) {
       return i;
     }
   }
+}
+
+function sortlistContacts(key) {
+  listContacts.sort((contact1, contact2) =>
+    contact1[key] > contact2[key] ? 1 : -1
+  );
 }
 
 //Модальное окно
@@ -175,7 +192,18 @@ addButtonEl.addEventListener("click", () => {
     }
 
     listContacts.push(newContact);
+
+    let keySortListContacts = "surname";
+
+    if (localStorage.getItem("contacts_key_sort") !== null) {
+      keySortListContacts = getItem("contacts_key_sort");
+    }
+
+    //сортируем массив
+    sortlistContacts(keySortListContacts);
+
     localStorage.setItem("contacts", JSON.stringify(listContacts));
+    localStorage.setItem("contacts_key_sort", keySortListContacts);
 
     //Очищаем модальное окно
     clearModal();
@@ -274,13 +302,98 @@ editButtonEls.forEach((button) => {
 
       listContacts[indexEditContact] = newContact;
 
-      localStorage.setItem("contacts", JSON.stringify(listContacts)); 
+      localStorage.setItem("contacts", JSON.stringify(listContacts));
 
       //Очищаем модальное окно
       clearModal();
 
       //Обновляем страницу
       window.location.replace("./index.html");
+    });
+
+    //Выход из формы модального окна
+    exitButtonEl.addEventListener("click", () => {
+      clearModal();
+      closeModal();
+    });
+  });
+});
+
+//Удаление контакта
+const deleteButtonEls = document.querySelectorAll(".icon__delete");
+
+deleteButtonEls.forEach((button) => {
+  button.addEventListener("click", (e) => {
+    const divItemEl = e.target.closest(".contact__item");
+    let index = getIndex(divItemEl);
+    let deleteContact = listContacts[index];
+
+    const html = `
+          <h1 class="title">Удалить контакт?</h1>
+          <div class="forma">
+            <div class="form__item">
+              <p class="label">Имя</p>
+              <input class="textInput" type="text" id="name" />
+            </div>
+
+            <div class="form__item">
+              <p class="label">Фамилия</p>
+              <input class="textInput" type="text" id="surname" />
+            </div>
+
+            <div class="form__item">
+              <p class="label">Должность</p>
+              <input class="textInput" type="text" id="position" />
+            </div>
+
+            <div class="form__item">
+              <p class="label">Фирма</p>
+              <input class="textInput" type="text" id="firmName" />
+            </div>
+
+            <div class="form__item">
+              <p class="label">Email</p>
+              <input class="textInput" type="email" id="email" />
+            </div>
+
+            <div class="form__item">
+              <lp class="label">Телефон</lp>
+              <input class="textInput" type="text" id="telephone" />
+            </div>
+
+            <div class="blockButtons">
+              <button class="btn deleteContact">Удалить</button>
+              <button class="btn exit">Выход</button>
+            </div>
+          </div>
+  `;
+    modalContentEl.innerHTML = html;
+
+    //Вставляем данные в форму
+    const deleteContactButtonEl = document.querySelector(".deleteContact");
+    const exitButtonEl = document.querySelector(".exit");
+    const nameInputEl = document.querySelector("#name");
+    const surnameInputEl = document.querySelector("#surname");
+    const positionInputEl = document.querySelector("#position");
+    const firmNameInputEl = document.querySelector("#firmName");
+    const emailInputEl = document.querySelector("#email");
+    const telephoneInputEl = document.querySelector("#telephone");
+
+    nameInputEl.value = deleteContact.name;
+    surnameInputEl.value = deleteContact.surname;
+    positionInputEl.value = deleteContact.position;
+    firmNameInputEl.value = deleteContact.firmName;
+    emailInputEl.value = deleteContact.email;
+    telephoneInputEl.value = deleteContact.telephone;
+
+    //открываем модальное окно
+    openModal();
+
+    deleteContactButtonEl.addEventListener("click", () => {
+      listContacts.splice(index, 1);
+      localStorage.setItem("contacts", JSON.stringify(listContacts));
+
+      location.reload();
     });
 
     //Выход из формы модального окна
