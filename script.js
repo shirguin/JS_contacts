@@ -196,6 +196,7 @@ addButtonEl.addEventListener("click", () => {
 
     if (keySortListContacts === "") {
       keySortListContacts = "surname";
+      localStorage.setItem("contacts_key_sort", keySortListContacts);
     }
 
     //сортируем массив
@@ -425,7 +426,48 @@ if (localStorage.getItem("plans_key_sort") !== null) {
   sortedColumnHeadingEl.classList.add("active");
 }
 
-const plans = document.querySelector(".plans");
+//Навешиваем сортировку на заголовки столбцов
+const divPlansHeadersEl = document.querySelector(".plan__headers");
+const headingPlanEls = divPlansHeadersEl.querySelectorAll(".heading");
+
+headingPlanEls.forEach((heading) => {
+  heading.addEventListener("click", () => {
+    const activeEl = divPlansHeadersEl.querySelector(".active");
+    activeEl.classList.remove("active");
+    heading.classList.add("active");
+
+    //Находим ключ для сортировки
+    const key = heading.classList[1].slice(6);
+    sortlistPlans(key);
+
+    localStorage.setItem("plans", JSON.stringify(listPlans));
+    localStorage.setItem("plans_key_sort", key);
+    location.reload();
+  });
+});
+
+const divPlansEl = document.querySelector(".plans");
+
+//Выводим контакты на экран
+listPlans.forEach((plan) => {
+  const newPlanEl = document.createElement("div");
+  newPlanEl.className = "plan__item";
+  newPlanEl.innerHTML = `
+        <div class="column plan__date">${plan.date}</div>
+        <div class="column plan__text">${plan.text}</div>
+
+        <div class="item__buttons">
+          <div class="icon__button">
+              <img class="icon__edit editPlan" src="./img/edit.svg" alt="iconedit" />
+          </div>
+
+          <div class="icon__button">
+              <img class="icon__delete deletePlan" src="./img/delete.svg" alt="iconedit" />
+          </div>
+        </div>
+    `;
+  divPlansEl.append(newPlanEl);
+});
 
 const addPlanButtonEl = document.querySelector(".addPlan");
 addPlanButtonEl.addEventListener("click", () => {
@@ -454,9 +496,32 @@ addPlanButtonEl.addEventListener("click", () => {
   const textareaEl = document.querySelector(".planText");
 
   savePlanButtonEl.addEventListener("click", () => {
-    const date = new Date;
-/*     Остановился здесь!!! */
-    console.log(date);
+    const currentDate = new Date();
+    const newPlan = {
+      /*       date: new Date().toLocaleDateString(), */
+      date: `${currentDate.toLocaleDateString().slice(0, 6)}${currentDate
+        .toLocaleDateString()
+        .slice(8, 10)} ${currentDate.toTimeString().slice(0, 5)}`,
+      text: textareaEl.value,
+    };
+
+    listPlans.push(newPlan);
+
+    if (keySortListPlans === "") {
+      keySortListPlans = "date";
+      localStorage.setItem("plans_key_sort", keySortListPlans);
+    }
+
+    //сортируем массив
+    sortlistPlans(keySortListPlans);
+
+    localStorage.setItem("plans", JSON.stringify(listPlans));
+
+    //Очищаем модальное окно
+    clearModal();
+
+    //Обновляем страницу
+    location.reload();
   });
 
   //Выход из формы модального окна
@@ -465,3 +530,85 @@ addPlanButtonEl.addEventListener("click", () => {
     closeModal();
   });
 });
+
+//Редактирование плана
+const editPlanButtonEls = document.querySelectorAll(".editPlan");
+
+editPlanButtonEls.forEach((button) => {
+  button.addEventListener("click", (e) => {
+    const divItemEl = e.target.closest(".plan__item");
+    let indexEditPlan = getIndexPlan(divItemEl);
+    const editplan = listPlans[indexEditPlan];
+
+    const html = `
+      <h1 class="title">Редактирование дела</h1>
+      <div class="forma">
+        <div class="form__item">
+          <textarea class="planText" cols="50" rows="10" autocomplete="off"></textarea>
+        </div>
+
+        <div class="blockButtons">
+          <button class="btn addPlanBtn">Добавить</button>
+          <button class="btn exitPlanBtn">Выход</button>
+        </div>
+      </div>
+  `;
+    modalContentEl.innerHTML = html;
+
+    //Вставляем данные в форму
+    const savePlanButtonEl = document.querySelector(".addPlanBtn");
+    const exitButtonEl = document.querySelector(".exitPlanBtn");
+    const textInputEl = document.querySelector(".planText");
+
+    textInputEl.value = editplan.text;
+
+    //открываем модальное окно
+    openModal();
+
+    //сохраняем отредактированные данные
+    savePlanButtonEl.addEventListener("click", () => {
+      let newPlan = {
+        date: editplan.date,
+        text: textInputEl.value,
+      };
+
+      listPlans[indexEditPlan] = newPlan;
+
+      //сортируем массив
+      sortlistPlans(keySortListPlans);
+
+      localStorage.setItem("plans", JSON.stringify(listPlans));
+
+      //Очищаем модальное окно
+      clearModal();
+
+      //Обновляем страницу
+      location.reload();
+    });
+
+    //Выход из формы модального окна
+    exitButtonEl.addEventListener("click", () => {
+      clearModal();
+      closeModal();
+    });
+  });
+});
+
+//Получение индекса плана в списке дел
+function getIndexPlan(divItemEl) {
+  let date = divItemEl.querySelector(".plan__date").textContent;
+  let text = divItemEl.querySelector(".plan__text").textContent;
+
+  for (let i = 0; i < listPlans.length; i++) {
+    const plan = listPlans[i];
+
+    if (plan.date == date && plan.text == text) {
+      return i;
+    }
+  }
+}
+
+//Сортировка массива планов
+function sortlistPlans(key) {
+  listPlans.sort((plan1, plan2) => (plan1[key] > plan2[key] ? 1 : -1));
+}
