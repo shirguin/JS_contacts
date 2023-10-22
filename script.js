@@ -391,6 +391,7 @@ deleteButtonEls.forEach((button) => {
     //открываем модальное окно
     openModal();
 
+    //Удаление
     deleteContactButtonEl.addEventListener("click", () => {
       listContacts.splice(index, 1);
       localStorage.setItem("contacts", JSON.stringify(listContacts));
@@ -448,13 +449,13 @@ headingPlanEls.forEach((heading) => {
 
 const divPlansEl = document.querySelector(".plans");
 
-//Выводим контакты на экран
+//Выводим планы на экран
 listPlans.forEach((plan) => {
   const newPlanEl = document.createElement("div");
   newPlanEl.className = "plan__item";
   newPlanEl.innerHTML = `
-        <div class="column plan__date">${plan.date}</div>
-        <div class="column plan__text">${plan.text}</div>
+        <div class="column__plan plan__date">${plan.date}</div>
+        <div class="column__plan plan__text">${plan.text}</div>
 
         <div class="item__buttons">
           <div class="icon__button">
@@ -471,12 +472,12 @@ listPlans.forEach((plan) => {
 
 const addPlanButtonEl = document.querySelector(".addPlan");
 addPlanButtonEl.addEventListener("click", () => {
-  //Вставляем в модальное окно форму для ввода нового контакта
+  //Вставляем в модальное окно форму для ввода нового плана
   const html = `
     <h1 class="title">Добавление нового дела</h1>
     <div class="forma">
       <div class="form__item">
-        <textarea class="planText" cols="50" rows="10" autocomplete="off"></textarea>
+        <textarea class="planText" cols="50" rows="10" autocomplete="off" autofocus></textarea>
       </div>
 
       <div class="blockButtons">
@@ -494,6 +495,9 @@ addPlanButtonEl.addEventListener("click", () => {
   const savePlanButtonEl = document.querySelector(".addPlanBtn");
   const exitPlanButtonEl = document.querySelector(".exitPlanBtn");
   const textareaEl = document.querySelector(".planText");
+
+  /*   //Устанавливаем фокус на текстовое поле
+  textareaEl.focus(); */
 
   savePlanButtonEl.addEventListener("click", () => {
     const currentDate = new Date();
@@ -544,7 +548,7 @@ editPlanButtonEls.forEach((button) => {
       <h1 class="title">Редактирование дела</h1>
       <div class="forma">
         <div class="form__item">
-          <textarea class="planText" cols="50" rows="10" autocomplete="off"></textarea>
+          <textarea class="planText" cols="50" rows="10" autocomplete="off" autofocus></textarea>
         </div>
 
         <div class="blockButtons">
@@ -594,6 +598,56 @@ editPlanButtonEls.forEach((button) => {
   });
 });
 
+//Удаление плана
+const deletePlanBtnEls = document.querySelectorAll(".deletePlan");
+
+deletePlanBtnEls.forEach((button) => {
+  button.addEventListener("click", (e) => {
+    const divItemEl = e.target.closest(".plan__item");
+    let index = getIndexPlan(divItemEl);
+    let deletePlan = listPlans[index];
+
+    const html = `
+      <h1 class="title">Удалить запланированное дело?</h1>
+      <div class="forma">
+        <div class="form__item">
+          <textarea class="planText" cols="50" rows="10" autocomplete="off"></textarea>
+        </div>
+
+        <div class="blockButtons">
+          <button class="btn delPlan">Удалить</button>
+          <button class="btn exit">Выход</button>
+        </div>
+      </div>
+  `;
+    modalContentEl.innerHTML = html;
+
+    //Вставляем данные в форму
+    const deletePlanButtonEl = document.querySelector(".delPlan");
+    const exitButtonEl = document.querySelector(".exit");
+    const textInputEl = document.querySelector(".planText");
+
+    textInputEl.value = deletePlan.text;
+
+    //открываем модальное окно
+    openModal();
+
+    //Удаление
+    deletePlanButtonEl.addEventListener("click", () => {
+      listPlans.splice(index, 1);
+      localStorage.setItem("plans", JSON.stringify(listPlans));
+
+      location.reload();
+    });
+
+    //Выход из формы модального окна
+    exitButtonEl.addEventListener("click", () => {
+      clearModal();
+      closeModal();
+    });
+  });
+});
+
 //Получение индекса плана в списке дел
 function getIndexPlan(divItemEl) {
   let date = divItemEl.querySelector(".plan__date").textContent;
@@ -612,3 +666,79 @@ function getIndexPlan(divItemEl) {
 function sortlistPlans(key) {
   listPlans.sort((plan1, plan2) => (plan1[key] > plan2[key] ? 1 : -1));
 }
+
+//Чтение файла
+const openFileButtonEl = document.querySelector(".openFileButton");
+
+const optionsLoad = {
+  // можно выбирать несколько файлов
+  multiple: false,
+  // разрешенный тип файлов
+  types: [
+    {
+      description: "Text",
+      accept: {
+        "text/plain": ".txt",
+      },
+    },
+  ],
+  // можно выбирать только разрешенные файлы
+  // по моим наблюдениям, данная настройка работает не совсем корректно
+  excludeAcceptAllOption: true,
+};
+
+openFileButtonEl.addEventListener("click", async () => {
+  const [fileHandle] = await window.showOpenFilePicker(optionsLoad);
+
+  const file = await fileHandle.getFile();
+
+  if (file.name === "to-doList.txt") {
+    const fileContent = await file.text();
+
+    //Сделать модальное окно с сообщением!!!!
+    listPlans = JSON.parse(fileContent);
+
+    localStorage.setItem("plans", JSON.stringify(listPlans));
+
+    //Очищаем модальное окно
+    clearModal();
+
+    //Обновляем страницу
+    location.reload();
+  } else {
+    //Сделать модальное окно с сообщением!!!!
+    console.log("Можно открыть только to-doList.txt");
+  }
+});
+
+//Запись списка дел в файл
+const saveFileButtonEl = document.querySelector(".saveFileButton");
+
+// настройки
+const optionsSave = {
+  // рекомендуемое название файла
+  suggestedName: "to-doList.txt",
+  types: [
+    {
+      description: "Text",
+      accept: {
+        "text/plain": ".txt",
+      },
+    },
+  ],
+  excludeAcceptAllOption: true,
+};
+
+// данные для записи
+const fileData = JSON.stringify(listPlans);
+
+saveFileButtonEl.addEventListener("click", async () => {
+  const fileHandle = await window.showSaveFilePicker(optionsSave);
+  const writableStream = await fileHandle.createWritable();
+
+  await writableStream.write(fileData);
+  // данный метод не упоминается в черновике спецификации,
+  // хотя там говорится о необходимости закрытия потока
+  // для успешной записи файла
+  await writableStream.close();
+});

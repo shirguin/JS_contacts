@@ -252,6 +252,18 @@ body {
 
 }
 
+.column__plan {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    text-align: center;
+    background-color: rgb(251, 251, 233);
+    box-sizing: border-box;
+    height: 100%;
+    border-right: 1px dotted rgb(33, 10, 0);
+    border-bottom: 1px dotted rgb(33, 10, 0);
+    word-break: break-all;
+}
+
 .plan__date {
     width: 25%;
     border-left: 1px dotted rgb(33, 10, 0);
@@ -259,6 +271,8 @@ body {
 
 .plan__text {
     width: 75%;
+    text-align: start;
+
 }
 
 .planText {
@@ -267,4 +281,7 @@ body {
     padding-right: 5px;
     color: rgb(33, 10, 0);
     font-size: 16px;
+    border: none;
+
+
 }
