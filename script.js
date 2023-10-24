@@ -53,11 +53,11 @@ listContacts.forEach((contact) => {
 
         <div class="item__buttons">
           <div class="icon__button">
-              <img class="icon__edit" src="./img/edit.svg" alt="iconedit" />
+              <img class="icon__edit icon" src="./img/edit.svg" alt="iconedit" />
           </div>
 
           <div class="icon__button">
-              <img class="icon__delete" src="./img/delete.svg" alt="iconedit" />
+              <img class="icon__delete icon" src="./img/delete.svg" alt="iconedit" />
           </div>
         </div>
     `;
@@ -459,11 +459,11 @@ listPlans.forEach((plan) => {
 
         <div class="item__buttons">
           <div class="icon__button">
-              <img class="icon__edit editPlan" src="./img/edit.svg" alt="iconedit" />
+              <img class="icon editPlan" src="./img/edit.svg" alt="iconedit" />
           </div>
 
           <div class="icon__button">
-              <img class="icon__delete deletePlan" src="./img/delete.svg" alt="iconedit" />
+              <img class="icon deletePlan" src="./img/delete.svg" alt="iconedit" />
           </div>
         </div>
     `;
@@ -668,7 +668,7 @@ function sortlistPlans(key) {
 }
 
 //Чтение файла
-const openFileButtonEl = document.querySelector(".openFileButton");
+const openFileButtonEl = document.querySelector(".openPlansFileButton");
 
 const optionsLoad = {
   // можно выбирать несколько файлов
@@ -683,7 +683,6 @@ const optionsLoad = {
     },
   ],
   // можно выбирать только разрешенные файлы
-  // по моим наблюдениям, данная настройка работает не совсем корректно
   excludeAcceptAllOption: true,
 };
 
@@ -712,7 +711,7 @@ openFileButtonEl.addEventListener("click", async () => {
 });
 
 //Запись списка дел в файл
-const saveFileButtonEl = document.querySelector(".saveFileButton");
+const saveFileButtonEl = document.querySelector(".savePlansFileButton");
 
 // настройки
 const optionsSave = {

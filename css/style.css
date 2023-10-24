@@ -16,13 +16,15 @@ body {
 .left__block {
     width: 70%;
     border: 1px solid black;
-    margin: 2px;
+    box-sizing: border-box;
+    height: 100dvh;
 }
 
 .right__block {
     width: 30%;
     border: 1px solid black;
-    margin: 2px;
+    box-sizing: border-box;
+    height: 100dvh;
 }
 
 /* contacts */
@@ -30,8 +32,11 @@ body {
     color: rgb(33, 10, 0);
     font-size: 36px;
     text-align: center;
-    margin-top: 40px;
-    margin-bottom: 40px;
+    height: 5dvh;
+}
+
+.content {
+    height: 90dvh;
 }
 
 .heading {
@@ -59,7 +64,8 @@ body {
 .contacts {
     display: flex;
     flex-direction: column;
-    height: 85dvh;
+    overflow-y: auto;
+    height: 88dvh;
 }
 
 .contact__item {
@@ -106,6 +112,12 @@ body {
     width: 15%;
 }
 
+.block__buttons {
+    display: flex;
+    justify-content: end;
+    height: 5dvh
+}
+
 .item__buttons {
     width: 60px;
     display: flex;
@@ -121,46 +133,15 @@ body {
     height: 24px;
 }
 
-.icon__edit {
+.icon {
     width: 18px;
     height: 18px;
     cursor: pointer;
 }
 
-.icon__edit:hover {
+.icon:hover {
     width: 24px;
     height: 24px;
-}
-
-.icon__delete {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-}
-
-.icon__delete:hover {
-    width: 24px;
-    height: 24px;
-}
-
-.icon__add {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-}
-
-.icon__add:hover {
-    width: 24px;
-    height: 24px;
-}
-
-.block__button {
-    display: flex;
-    justify-content: right;
-    align-items: center;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    height: 5vh;
 }
 
 .btn {
@@ -241,7 +222,8 @@ body {
 .plans {
     display: flex;
     flex-direction: column;
-    height: 85dvh;
+    overflow-y: auto;
+    height: 88dvh;
 }
 
 .plan__item {
@@ -282,6 +264,4 @@ body {
     color: rgb(33, 10, 0);
     font-size: 16px;
     border: none;
-
-
 }

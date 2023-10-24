@@ -11,46 +11,83 @@
       <div class="left__block">
         <h1 class="title">Контакты</h1>
 
-        <div class="contact__item headers">
-          <div class="heading contact__name">Имя</div>
-          <div class="heading contact__surname">Фамилия</div>
-          <div class="heading contact__position">Должность</div>
-          <div class="heading contact__firmName">Фирма</div>
-          <div class="heading contact__email">Email</div>
-          <div class="heading contact__telephone">Телефон</div>
+        <div class="content">
+          <div class="contact__item headers">
+            <div class="heading contact__name">Имя</div>
+            <div class="heading contact__surname">Фамилия</div>
+            <div class="heading contact__position">Должность</div>
+            <div class="heading contact__firmName">Фирма</div>
+            <div class="heading contact__email">Email</div>
+            <div class="heading contact__telephone">Телефон</div>
 
+            <div class="item__buttons">
+              <div class="icon__button">
+                <img class="icon addContact" src="./img/add.svg" alt="icon" />
+              </div>
+            </div>
+          </div>
+
+          <div class="contacts"></div>
+        </div>
+
+        <div class="block__buttons">
           <div class="item__buttons">
             <div class="icon__button">
               <img
-                class="icon__add addContact"
-                src="./img/add.svg"
+                class="saveContactsFileButton icon"
+                src="./img/export.svg"
+                alt="icon"
+              />
+            </div>
+
+            <div class="icon__button">
+              <img
+                class="openContactsFileButton icon"
+                src="./img/import.svg"
                 alt="icon"
               />
             </div>
           </div>
         </div>
-
-        <div class="contacts"></div>
       </div>
 
       <div class="right__block">
         <h1 class="title">Планы</h1>
 
-        <div class="plan__item plan__headers">
-          <div class="heading plan__date">Дата</div>
-          <div class="heading plan__text">Запланированное дело</div>
+        <div class="content">
+          <div class="plan__item plan__headers">
+            <div class="heading plan__date">Дата</div>
+            <div class="heading plan__text">Запланированное дело</div>
 
+            <div class="item__buttons">
+              <div class="icon__button">
+                <img class="icon addPlan" src="./img/add.svg" alt="icon" />
+              </div>
+            </div>
+          </div>
+
+          <div class="plans"></div>
+        </div>
+
+        <div class="block__buttons">
           <div class="item__buttons">
             <div class="icon__button">
-              <img class="icon__add addPlan" src="./img/add.svg" alt="icon" />
+              <img
+                class="savePlansFileButton icon"
+                src="./img/export.svg"
+                alt="icon"
+              />
+            </div>
+
+            <div class="icon__button">
+              <img
+                class="openPlansFileButton icon"
+                src="./img/import.svg"
+                alt="icon"
+              />
             </div>
           </div>
         </div>
-
-        <div class="plans"></div>
-
-        <button class="openFileButton">Загрузить список дел из файла</button>
-        <button class="saveFileButton">Сохранить список дел в файл</button>
       </div>
     </div>
 
