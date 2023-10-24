@@ -125,96 +125,103 @@ const clearModal = () => {
 };
 
 //Добавление контакта
-const addButtonEl = document.querySelector(".addContact");
-addButtonEl.addEventListener("click", () => {
-  //Вставляем в модальное окно форму для ввода нового контакта
-  const html = `
-          <h1 class="title">Добавление контакта</h1>
-          <div class="forma">
-            <div class="form__item">
-              <p class="label">Имя</p>
-              <input class="textInput" type="text" id="name" autocomplete="off"/>
+const addButtonEls = document.querySelectorAll(".addContact");
+
+addButtonEls.forEach((element) => {
+  element.addEventListener("click", () => {
+    //Вставляем в модальное окно форму для ввода нового контакта
+    const html = `
+            <h1 class="title">Добавление контакта</h1>
+            <div class="forma">
+              <div class="form__item">
+                <p class="label">Имя</p>
+                <input class="textInput" type="text" id="name" autocomplete="off"/>
+              </div>
+  
+              <div class="form__item">
+                <p class="label">Фамилия</p>
+                <input class="textInput" type="text" id="surname" autocomplete="off"/>
+              </div>
+  
+              <div class="form__item">
+                <p class="label">Должность</p>
+                <input class="textInput" type="text" id="position" autocomplete="off"/>
+              </div>
+  
+              <div class="form__item">
+                <p class="label">Фирма</p>
+                <input class="textInput" type="text" id="firmName" autocomplete="off"/>
+              </div>
+  
+              <div class="form__item">
+                <p class="label">Email</p>
+                <input class="textInput" type="email" id="email" autocomplete="off"/>
+              </div>
+  
+              <div class="form__item">
+                <lp class="label">Телефон</lp>
+                <input class="textInput" type="text" id="telephone" autocomplete="off"/>
+              </div>
+  
+              <div class="blockButtons">
+                <button class="btn saveContact">Добавить</button>
+                <button class="btn exit">Выход</button>
+              </div>
             </div>
+    `;
+    modalContentEl.innerHTML = html;
 
-            <div class="form__item">
-              <p class="label">Фамилия</p>
-              <input class="textInput" type="text" id="surname" autocomplete="off"/>
-            </div>
+    //открываем модальное окно
+    openModal();
 
-            <div class="form__item">
-              <p class="label">Должность</p>
-              <input class="textInput" type="text" id="position" autocomplete="off"/>
-            </div>
+    //Добавление контакта
+    const addContactButtonEl = document.querySelector(".saveContact");
+    const exitButtonEl = document.querySelector(".exit");
+    const nameInputEl = document.querySelector("#name");
+    nameInputEl.focus();
+    const surnameInputEl = document.querySelector("#surname");
+    const positionInputEl = document.querySelector("#position");
+    const firmNameInputEl = document.querySelector("#firmName");
+    const emailInputEl = document.querySelector("#email");
+    const telephoneInputEl = document.querySelector("#telephone");
 
-            <div class="form__item">
-              <p class="label">Фирма</p>
-              <input class="textInput" type="text" id="firmName" autocomplete="off"/>
-            </div>
+    addContactButtonEl.addEventListener("click", () => {
+      let newContact = {
+        name: nameInputEl.value,
+        surname: surnameInputEl.value,
+        position: positionInputEl.value,
+        firmName: firmNameInputEl.value,
+        email: emailInputEl.value,
+        telephone: telephoneInputEl.value,
+      };
 
-            <div class="form__item">
-              <p class="label">Email</p>
-              <input class="textInput" type="email" id="email" autocomplete="off"/>
-            </div>
+      listContacts.push(newContact);
 
-            <div class="form__item">
-              <lp class="label">Телефон</lp>
-              <input class="textInput" type="text" id="telephone" autocomplete="off"/>
-            </div>
+      if (keySortListContacts === "") {
+        keySortListContacts = "surname";
+        localStorage.setItem("contacts_key_sort", keySortListContacts);
+      }
 
-            <div class="blockButtons">
-              <button class="btn saveContact">Добавить</button>
-              <button class="btn exit">Выход</button>
-            </div>
-          </div>
-  `;
-  modalContentEl.innerHTML = html;
+      //сортируем массив
+      sortlistContacts(keySortListContacts);
 
-  //открываем модальное окно
-  openModal();
+      localStorage.setItem("contacts", JSON.stringify(listContacts));
 
-  //Добавление контакта
-  const addContactButtonEl = document.querySelector(".saveContact");
-  const exitButtonEl = document.querySelector(".exit");
-  const nameInputEl = document.querySelector("#name");
-  const surnameInputEl = document.querySelector("#surname");
-  const positionInputEl = document.querySelector("#position");
-  const firmNameInputEl = document.querySelector("#firmName");
-  const emailInputEl = document.querySelector("#email");
-  const telephoneInputEl = document.querySelector("#telephone");
+      //Очищаем модальное окно
+      clearModal();
 
-  addContactButtonEl.addEventListener("click", () => {
-    let newContact = {
-      name: nameInputEl.value,
-      surname: surnameInputEl.value,
-      position: positionInputEl.value,
-      firmName: firmNameInputEl.value,
-      email: emailInputEl.value,
-      telephone: telephoneInputEl.value,
-    };
+      //Закрываем модальное окно
+      closeModal();
 
-    listContacts.push(newContact);
+      //Обновляем страницу
+      location.reload();
+    });
 
-    if (keySortListContacts === "") {
-      keySortListContacts = "surname";
-      localStorage.setItem("contacts_key_sort", keySortListContacts);
-    }
-
-    //сортируем массив
-    sortlistContacts(keySortListContacts);
-
-    localStorage.setItem("contacts", JSON.stringify(listContacts));
-
-    //Очищаем модальное окно
-    clearModal();
-
-    //Обновляем страницу
-    location.reload();
-  });
-
-  //Выход из формы модального окна
-  exitButtonEl.addEventListener("click", () => {
-    clearModal();
-    closeModal();
+    //Выход из формы модального окна
+    exitButtonEl.addEventListener("click", () => {
+      clearModal();
+      closeModal();
+    });
   });
 });
 
@@ -287,6 +294,8 @@ editButtonEls.forEach((button) => {
 
     //открываем модальное окно
     openModal();
+
+    nameInputEl.focus();
 
     //сохраняем отредактированные данные
     saveContactButtonEl.addEventListener("click", () => {
@@ -391,6 +400,8 @@ deleteButtonEls.forEach((button) => {
     //открываем модальное окно
     openModal();
 
+    exitButtonEl.focus();
+
     //Удаление
     deleteContactButtonEl.addEventListener("click", () => {
       listContacts.splice(index, 1);
@@ -470,68 +481,71 @@ listPlans.forEach((plan) => {
   divPlansEl.append(newPlanEl);
 });
 
-const addPlanButtonEl = document.querySelector(".addPlan");
-addPlanButtonEl.addEventListener("click", () => {
-  //Вставляем в модальное окно форму для ввода нового плана
-  const html = `
-    <h1 class="title">Добавление нового дела</h1>
-    <div class="forma">
-      <div class="form__item">
-        <textarea class="planText" cols="50" rows="10" autocomplete="off" autofocus></textarea>
+//Добавление нового дела
+const addPlanButtonEls = document.querySelectorAll(".addPlan");
+
+addPlanButtonEls.forEach((element) => {
+  element.addEventListener("click", () => {
+    //Вставляем в модальное окно форму для ввода нового плана
+    const html = `
+      <h1 class="title">Добавление нового дела</h1>
+      <div class="forma">
+        <div class="form__item">
+          <textarea class="planText" cols="50" rows="10" autocomplete="off"></textarea>
+        </div>
+  
+        <div class="blockButtons">
+          <button class="btn addPlanBtn">Добавить</button>
+          <button class="btn exitPlanBtn">Выход</button>
+        </div>
       </div>
+  `;
+    modalContentEl.innerHTML = html;
 
-      <div class="blockButtons">
-        <button class="btn addPlanBtn">Добавить</button>
-        <button class="btn exitPlanBtn">Выход</button>
-      </div>
-    </div>
-`;
-  modalContentEl.innerHTML = html;
+    //открываем модальное окно
+    openModal();
 
-  //открываем модальное окно
-  openModal();
+    //Добавление нового плана
+    const savePlanButtonEl = document.querySelector(".addPlanBtn");
+    const exitPlanButtonEl = document.querySelector(".exitPlanBtn");
+    const textareaEl = document.querySelector(".planText");
 
-  //Добавление нового плана
-  const savePlanButtonEl = document.querySelector(".addPlanBtn");
-  const exitPlanButtonEl = document.querySelector(".exitPlanBtn");
-  const textareaEl = document.querySelector(".planText");
+    //Устанавливаем фокус на текстовое поле
+    textareaEl.focus();
 
-  /*   //Устанавливаем фокус на текстовое поле
-  textareaEl.focus(); */
+    savePlanButtonEl.addEventListener("click", () => {
+      const currentDate = new Date();
+      const newPlan = {
+        date: `${currentDate.toLocaleDateString().slice(0, 6)}${currentDate
+          .toLocaleDateString()
+          .slice(8, 10)} ${currentDate.toTimeString().slice(0, 5)}`,
+        text: textareaEl.value,
+      };
 
-  savePlanButtonEl.addEventListener("click", () => {
-    const currentDate = new Date();
-    const newPlan = {
-      /*       date: new Date().toLocaleDateString(), */
-      date: `${currentDate.toLocaleDateString().slice(0, 6)}${currentDate
-        .toLocaleDateString()
-        .slice(8, 10)} ${currentDate.toTimeString().slice(0, 5)}`,
-      text: textareaEl.value,
-    };
+      listPlans.push(newPlan);
 
-    listPlans.push(newPlan);
+      if (keySortListPlans === "") {
+        keySortListPlans = "date";
+        localStorage.setItem("plans_key_sort", keySortListPlans);
+      }
 
-    if (keySortListPlans === "") {
-      keySortListPlans = "date";
-      localStorage.setItem("plans_key_sort", keySortListPlans);
-    }
+      //сортируем массив
+      sortlistPlans(keySortListPlans);
 
-    //сортируем массив
-    sortlistPlans(keySortListPlans);
+      localStorage.setItem("plans", JSON.stringify(listPlans));
 
-    localStorage.setItem("plans", JSON.stringify(listPlans));
+      //Очищаем модальное окно
+      clearModal();
 
-    //Очищаем модальное окно
-    clearModal();
+      //Обновляем страницу
+      location.reload();
+    });
 
-    //Обновляем страницу
-    location.reload();
-  });
-
-  //Выход из формы модального окна
-  exitPlanButtonEl.addEventListener("click", () => {
-    clearModal();
-    closeModal();
+    //Выход из формы модального окна
+    exitPlanButtonEl.addEventListener("click", () => {
+      clearModal();
+      closeModal();
+    });
   });
 });
 
@@ -548,7 +562,7 @@ editPlanButtonEls.forEach((button) => {
       <h1 class="title">Редактирование дела</h1>
       <div class="forma">
         <div class="form__item">
-          <textarea class="planText" cols="50" rows="10" autocomplete="off" autofocus></textarea>
+          <textarea class="planText" cols="50" rows="10" autocomplete="off"></textarea>
         </div>
 
         <div class="blockButtons">
@@ -568,6 +582,8 @@ editPlanButtonEls.forEach((button) => {
 
     //открываем модальное окно
     openModal();
+
+    textInputEl.focus();
 
     //сохраняем отредактированные данные
     savePlanButtonEl.addEventListener("click", () => {
@@ -632,6 +648,8 @@ deletePlanBtnEls.forEach((button) => {
     //открываем модальное окно
     openModal();
 
+    exitButtonEl.focus();
+
     //Удаление
     deletePlanButtonEl.addEventListener("click", () => {
       listPlans.splice(index, 1);
@@ -667,8 +685,8 @@ function sortlistPlans(key) {
   listPlans.sort((plan1, plan2) => (plan1[key] > plan2[key] ? 1 : -1));
 }
 
-//Чтение файла
-const openFileButtonEl = document.querySelector(".openPlansFileButton");
+//----------------------------------------------------------
+//Загрузка данных из файла
 
 const optionsLoad = {
   // можно выбирать несколько файлов
@@ -686,7 +704,10 @@ const optionsLoad = {
   excludeAcceptAllOption: true,
 };
 
-openFileButtonEl.addEventListener("click", async () => {
+//Загрузка списка дел
+const openPlansFileButtonEl = document.querySelector(".openPlansFileButton");
+
+openPlansFileButtonEl.addEventListener("click", async () => {
   const [fileHandle] = await window.showOpenFilePicker(optionsLoad);
 
   const file = await fileHandle.getFile();
@@ -694,50 +715,223 @@ openFileButtonEl.addEventListener("click", async () => {
   if (file.name === "to-doList.txt") {
     const fileContent = await file.text();
 
-    //Сделать модальное окно с сообщением!!!!
-    listPlans = JSON.parse(fileContent);
+    //Вставляем в модальное окно вопрос о замене списка дел
+    const html = `
+      <h1 class="title">Заменить список дел списком из файла?</h1>
+      <div class="forma">
+          
+        <div class="blockButtons">
+          <button class="btn replacePlanBtn">Заменить</button>
+          <button class="btn exitPlanBtn">Выход</button>
+        </div>
+      </div>
+  `;
+    modalContentEl.innerHTML = html;
 
-    localStorage.setItem("plans", JSON.stringify(listPlans));
+    const replacePlanButtonEl = document.querySelector(".replacePlanBtn");
+    const exitPlanBtn = document.querySelector(".exitPlanBtn");
 
-    //Очищаем модальное окно
-    clearModal();
+    openModal();
 
-    //Обновляем страницу
-    location.reload();
+    exitPlanBtn.focus();
+
+    replacePlanButtonEl.addEventListener("click", () => {
+      listPlans = JSON.parse(fileContent);
+      localStorage.setItem("plans", JSON.stringify(listPlans));
+
+      clearModal();
+      closeModal();
+      location.reload();
+    });
+
+    exitPlanBtn.addEventListener("click", () => {
+      clearModal();
+      closeModal();
+    });
   } else {
-    //Сделать модальное окно с сообщением!!!!
-    console.log("Можно открыть только to-doList.txt");
+    //Вставляем в модальное окно сообщение, что не тот файл
+    const html = `
+      <h1 class="title">Данные можно загрузить только из файла:</h1>
+      <h1 class="title">to-doList.txt</h1>
+      <div class="forma">
+          
+        <div class="blockButtons">
+          <button class="btn exitPlanBtn">ОК</button>
+        </div>
+      </div>
+  `;
+    modalContentEl.innerHTML = html;
+
+    const exitPlanBtn = document.querySelector(".exitPlanBtn");
+
+    openModal();
+
+    exitPlanBtn.focus();
+
+    exitPlanBtn.addEventListener("click", () => {
+      clearModal();
+      closeModal();
+    });
+  }
+});
+
+//Загрузка списка контактов
+const openContactsFileButtonEl = document.querySelector(
+  ".openContactsFileButton"
+);
+
+openContactsFileButtonEl.addEventListener("click", async () => {
+  const [fileHandle] = await window.showOpenFilePicker(optionsLoad);
+
+  const file = await fileHandle.getFile();
+
+  if (file.name === "contactList.txt") {
+    const fileContent = await file.text();
+
+    //Вставляем в модальное окно вопрос о замене списка контактов
+    const html = `
+      <h1 class="title">Заменить список контактов списком из файла?</h1>
+      <div class="forma">
+          
+        <div class="blockButtons">
+          <button class="btn replaceContactBtn">Заменить</button>
+          <button class="btn exitContactBtn">Выход</button>
+        </div>
+      </div>
+  `;
+    modalContentEl.innerHTML = html;
+
+    const replaceContactButtonEl = document.querySelector(".replaceContactBtn");
+    const exitContactBtnEl = document.querySelector(".exitContactBtn");
+
+    openModal();
+
+    exitContactBtnEl.focus();
+
+    replaceContactButtonEl.addEventListener("click", () => {
+      listContacts = JSON.parse(fileContent);
+      localStorage.setItem("contacts", JSON.stringify(listContacts));
+
+      clearModal();
+      closeModal();
+      location.reload();
+    });
+
+    exitContactBtnEl.addEventListener("click", () => {
+      clearModal();
+      closeModal();
+    });
+  } else {
+    //Вставляем в модальное окно сообщение, что не тот файл
+    const html = `
+      <h1 class="title">Данные можно загрузить только из файла:</h1>
+      <h1 class="title">contactList.txt</h1>
+      <div class="forma">
+          
+        <div class="blockButtons">
+          <button class="btn exitContactBtn">ОК</button>
+        </div>
+      </div>
+  `;
+    modalContentEl.innerHTML = html;
+
+    const exitContactBtn = document.querySelector(".exitContactBtn");
+
+    openModal();
+
+    exitContactBtn.focus();
+
+    exitContactBtn.addEventListener("click", () => {
+      clearModal();
+      closeModal();
+    });
   }
 });
 
 //Запись списка дел в файл
-const saveFileButtonEl = document.querySelector(".savePlansFileButton");
+const savePlansFileButtonEl = document.querySelector(".savePlansFileButton");
 
-// настройки
-const optionsSave = {
-  // рекомендуемое название файла
-  suggestedName: "to-doList.txt",
-  types: [
-    {
-      description: "Text",
-      accept: {
-        "text/plain": ".txt",
+savePlansFileButtonEl.addEventListener("click", async () => {
+  const nameFile = "to-doList.txt";
+  const fileData = JSON.stringify(listPlans);
+  saveFile(nameFile, fileData);
+});
+
+//Запись списка контактов в файл
+const saveContactsFileButtonEl = document.querySelector(
+  ".saveContactsFileButton"
+);
+
+saveContactsFileButtonEl.addEventListener("click", () => {
+  const nameFile = "contactList.txt";
+  const fileData = JSON.stringify(listContacts);
+  saveFile(nameFile, fileData);
+});
+
+//Запись данных в файл
+const saveFile = async (nameFile, fileData) => {
+  // настройки
+  const optionsSave = {
+    // рекомендуемое название файла
+    suggestedName: nameFile,
+    types: [
+      {
+        description: "Text",
+        accept: {
+          "text/plain": ".txt",
+        },
       },
-    },
-  ],
-  excludeAcceptAllOption: true,
-};
+    ],
+    excludeAcceptAllOption: true,
+  };
 
-// данные для записи
-const fileData = JSON.stringify(listPlans);
-
-saveFileButtonEl.addEventListener("click", async () => {
   const fileHandle = await window.showSaveFilePicker(optionsSave);
   const writableStream = await fileHandle.createWritable();
 
   await writableStream.write(fileData);
-  // данный метод не упоминается в черновике спецификации,
-  // хотя там говорится о необходимости закрытия потока
-  // для успешной записи файла
   await writableStream.close();
+};
+
+//Добавление новой записи через клавишу insert
+document.addEventListener("keydown", (e) => {
+  if ((e.code = "Insert")) {
+    //Вставляем в модальное окно вопрос о замене списка контактов
+    const html = `
+    <h1 class="title">Выберите что создать?</h1>
+    <div class="forma">
+        
+      <select class="selectNewEl">
+        <option value="contact">Новый контакт</option>
+        <option value="plan">Новое дело</option>
+      </select>
+
+      <div class="blockButtons">
+        <button class="btn selectElementBtn">Выбрать</button>
+        <button class="btn exitElementBtn">Выход</button>
+
+      </div>
+
+    </div>
+`;
+    modalContentEl.innerHTML = html;
+
+    openModal();
+
+    const selectElementBtn = document.querySelector(".selectElementBtn");
+
+    selectElementBtn.addEventListener("click", () => {
+      const newElement = document.querySelector(".selectNewEl").value;
+//Остановился здесь.
+
+
+      console.log(newElement);
+    });
+
+    const exitElementBtnEl = document.querySelector(".exitElementBtn");
+
+    exitElementBtnEl.addEventListener("click", () => {
+      clearModal();
+      closeModal();
+    });
+  }
 });
