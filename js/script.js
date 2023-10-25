@@ -456,9 +456,9 @@ headingPlanEls.forEach((heading) => {
     //Находим ключ для сортировки
     const key = heading.classList[1].slice(6);
 
-    if (key === "checked"){
+    if (key === "checked") {
       sortListPlansByPriority();
-    }else{
+    } else {
       sortlistPlans(key);
     }
 
@@ -711,13 +711,15 @@ const sortlistPlans = (key) => {
 };
 
 //Сортировка массива планов по приоретету
-const sortListPlansByPriority = ()=>{
-  sortlistPlans('date');
+const sortListPlansByPriority = () => {
+  //Сначала сортируем по дате
+  sortlistPlans("date");
 
-
-  //Остановился здесь!!!
-  listPlans.sort((plan1, plan2)=>());
-}
+  //Все приорететные поднимаем в верх списка
+  listPlans.sort((x, y) => {
+    return x.priority === y.priority ? 0 : x.priority ? -1 : 1;
+  });
+};
 
 //Установка важности дел
 const checkboxEls = document.querySelectorAll(".plan__checkbox");
