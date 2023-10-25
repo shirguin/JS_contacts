@@ -65,7 +65,7 @@ listContacts.forEach((contact) => {
 });
 
 //Получение индекса контакта в списке контактов
-function getIndex(divItemEl) {
+const getIndex = (divItemEl) => {
   let name = divItemEl.querySelector(".contact__name").textContent;
   let surname = divItemEl.querySelector(".contact__surname").textContent;
   let position = divItemEl.querySelector(".contact__position").textContent;
@@ -87,14 +87,14 @@ function getIndex(divItemEl) {
       return i;
     }
   }
-}
+};
 
 //Сортировка массива контактов
-function sortlistContacts(key) {
+const sortlistContacts = (key) => {
   listContacts.sort((contact1, contact2) =>
     contact1[key] > contact2[key] ? 1 : -1
   );
-}
+};
 
 //Модальное окно
 const modalEl = document.querySelector(".modal");
@@ -129,101 +129,106 @@ const addButtonEls = document.querySelectorAll(".addContact");
 
 addButtonEls.forEach((element) => {
   element.addEventListener("click", () => {
-    //Вставляем в модальное окно форму для ввода нового контакта
-    const html = `
-            <h1 class="title">Добавление контакта</h1>
-            <div class="forma">
-              <div class="form__item">
-                <p class="label">Имя</p>
-                <input class="textInput" type="text" id="name" autocomplete="off"/>
-              </div>
-  
-              <div class="form__item">
-                <p class="label">Фамилия</p>
-                <input class="textInput" type="text" id="surname" autocomplete="off"/>
-              </div>
-  
-              <div class="form__item">
-                <p class="label">Должность</p>
-                <input class="textInput" type="text" id="position" autocomplete="off"/>
-              </div>
-  
-              <div class="form__item">
-                <p class="label">Фирма</p>
-                <input class="textInput" type="text" id="firmName" autocomplete="off"/>
-              </div>
-  
-              <div class="form__item">
-                <p class="label">Email</p>
-                <input class="textInput" type="email" id="email" autocomplete="off"/>
-              </div>
-  
-              <div class="form__item">
-                <lp class="label">Телефон</lp>
-                <input class="textInput" type="text" id="telephone" autocomplete="off"/>
-              </div>
-  
-              <div class="blockButtons">
-                <button class="btn saveContact">Добавить</button>
-                <button class="btn exit">Выход</button>
-              </div>
-            </div>
-    `;
-    modalContentEl.innerHTML = html;
-
-    //открываем модальное окно
-    openModal();
-
-    //Добавление контакта
-    const addContactButtonEl = document.querySelector(".saveContact");
-    const exitButtonEl = document.querySelector(".exit");
-    const nameInputEl = document.querySelector("#name");
-    nameInputEl.focus();
-    const surnameInputEl = document.querySelector("#surname");
-    const positionInputEl = document.querySelector("#position");
-    const firmNameInputEl = document.querySelector("#firmName");
-    const emailInputEl = document.querySelector("#email");
-    const telephoneInputEl = document.querySelector("#telephone");
-
-    addContactButtonEl.addEventListener("click", () => {
-      let newContact = {
-        name: nameInputEl.value,
-        surname: surnameInputEl.value,
-        position: positionInputEl.value,
-        firmName: firmNameInputEl.value,
-        email: emailInputEl.value,
-        telephone: telephoneInputEl.value,
-      };
-
-      listContacts.push(newContact);
-
-      if (keySortListContacts === "") {
-        keySortListContacts = "surname";
-        localStorage.setItem("contacts_key_sort", keySortListContacts);
-      }
-
-      //сортируем массив
-      sortlistContacts(keySortListContacts);
-
-      localStorage.setItem("contacts", JSON.stringify(listContacts));
-
-      //Очищаем модальное окно
-      clearModal();
-
-      //Закрываем модальное окно
-      closeModal();
-
-      //Обновляем страницу
-      location.reload();
-    });
-
-    //Выход из формы модального окна
-    exitButtonEl.addEventListener("click", () => {
-      clearModal();
-      closeModal();
-    });
+    createNewContact();
   });
 });
+
+//Функция создает новый контакт
+const createNewContact = () => {
+  //Вставляем в модальное окно форму для ввода нового контакта
+  const html = `
+    <h1 class="title">Добавление контакта</h1>
+    <div class="forma">
+      <div class="form__item">
+        <p class="label">Имя</p>
+        <input class="textInput" type="text" id="name" autocomplete="off"/>
+      </div>
+
+      <div class="form__item">
+        <p class="label">Фамилия</p>
+        <input class="textInput" type="text" id="surname" autocomplete="off"/>
+      </div>
+
+      <div class="form__item">
+        <p class="label">Должность</p>
+        <input class="textInput" type="text" id="position" autocomplete="off"/>
+      </div>
+
+      <div class="form__item">
+        <p class="label">Фирма</p>
+        <input class="textInput" type="text" id="firmName" autocomplete="off"/>
+      </div>
+
+      <div class="form__item">
+        <p class="label">Email</p>
+        <input class="textInput" type="email" id="email" autocomplete="off"/>
+      </div>
+
+      <div class="form__item">
+        <lp class="label">Телефон</lp>
+        <input class="textInput" type="text" id="telephone" autocomplete="off"/>
+      </div>
+
+      <div class="blockButtons">
+        <button class="btn saveContact">Добавить</button>
+        <button class="btn exit">Выход</button>
+      </div>
+    </div>  
+  `;
+  modalContentEl.innerHTML = html;
+
+  //открываем модальное окно
+  openModal();
+
+  //Добавление контакта
+  const addContactButtonEl = document.querySelector(".saveContact");
+  const exitButtonEl = document.querySelector(".exit");
+  const nameInputEl = document.querySelector("#name");
+  nameInputEl.focus();
+  const surnameInputEl = document.querySelector("#surname");
+  const positionInputEl = document.querySelector("#position");
+  const firmNameInputEl = document.querySelector("#firmName");
+  const emailInputEl = document.querySelector("#email");
+  const telephoneInputEl = document.querySelector("#telephone");
+
+  addContactButtonEl.addEventListener("click", () => {
+    let newContact = {
+      name: nameInputEl.value,
+      surname: surnameInputEl.value,
+      position: positionInputEl.value,
+      firmName: firmNameInputEl.value,
+      email: emailInputEl.value,
+      telephone: telephoneInputEl.value,
+    };
+
+    listContacts.push(newContact);
+
+    if (keySortListContacts === "") {
+      keySortListContacts = "surname";
+      localStorage.setItem("contacts_key_sort", keySortListContacts);
+    }
+
+    //сортируем массив
+    sortlistContacts(keySortListContacts);
+
+    localStorage.setItem("contacts", JSON.stringify(listContacts));
+
+    //Очищаем модальное окно
+    clearModal();
+
+    //Закрываем модальное окно
+    closeModal();
+
+    //Обновляем страницу
+    location.reload();
+  });
+
+  //Выход из формы модального окна
+  exitButtonEl.addEventListener("click", () => {
+    clearModal();
+    closeModal();
+  });
+};
 
 //Редактирование контакта
 const editButtonEls = document.querySelectorAll(".icon__edit");
@@ -486,12 +491,18 @@ const addPlanButtonEls = document.querySelectorAll(".addPlan");
 
 addPlanButtonEls.forEach((element) => {
   element.addEventListener("click", () => {
-    //Вставляем в модальное окно форму для ввода нового плана
-    const html = `
+    createNewPlan();
+  });
+});
+
+//Функция создает новый план
+const createNewPlan = () => {
+  //Вставляем в модальное окно форму для ввода нового плана
+  const html = `
       <h1 class="title">Добавление нового дела</h1>
       <div class="forma">
         <div class="form__item">
-          <textarea class="planText" cols="50" rows="10" autocomplete="off"></textarea>
+          <textarea class="planText" name="planText" cols="50" rows="10" autocomplete="off"></textarea>
         </div>
   
         <div class="blockButtons">
@@ -500,54 +511,53 @@ addPlanButtonEls.forEach((element) => {
         </div>
       </div>
   `;
-    modalContentEl.innerHTML = html;
+  modalContentEl.innerHTML = html;
 
-    //открываем модальное окно
-    openModal();
+  //открываем модальное окно
+  openModal();
 
-    //Добавление нового плана
-    const savePlanButtonEl = document.querySelector(".addPlanBtn");
-    const exitPlanButtonEl = document.querySelector(".exitPlanBtn");
-    const textareaEl = document.querySelector(".planText");
+  //Добавление нового плана
+  const savePlanButtonEl = document.querySelector(".addPlanBtn");
+  const exitPlanButtonEl = document.querySelector(".exitPlanBtn");
+  const textareaEl = document.querySelector(".planText");
 
-    //Устанавливаем фокус на текстовое поле
-    textareaEl.focus();
+  //Устанавливаем фокус на текстовое поле
+  textareaEl.focus();
 
-    savePlanButtonEl.addEventListener("click", () => {
-      const currentDate = new Date();
-      const newPlan = {
-        date: `${currentDate.toLocaleDateString().slice(0, 6)}${currentDate
-          .toLocaleDateString()
-          .slice(8, 10)} ${currentDate.toTimeString().slice(0, 5)}`,
-        text: textareaEl.value,
-      };
+  savePlanButtonEl.addEventListener("click", () => {
+    const currentDate = new Date();
+    const newPlan = {
+      date: `${currentDate.toLocaleDateString().slice(0, 6)}${currentDate
+        .toLocaleDateString()
+        .slice(8, 10)} ${currentDate.toTimeString().slice(0, 5)}`,
+      text: textareaEl.value,
+    };
 
-      listPlans.push(newPlan);
+    listPlans.push(newPlan);
 
-      if (keySortListPlans === "") {
-        keySortListPlans = "date";
-        localStorage.setItem("plans_key_sort", keySortListPlans);
-      }
+    if (keySortListPlans === "") {
+      keySortListPlans = "date";
+      localStorage.setItem("plans_key_sort", keySortListPlans);
+    }
 
-      //сортируем массив
-      sortlistPlans(keySortListPlans);
+    //сортируем массив
+    sortlistPlans(keySortListPlans);
 
-      localStorage.setItem("plans", JSON.stringify(listPlans));
+    localStorage.setItem("plans", JSON.stringify(listPlans));
 
-      //Очищаем модальное окно
-      clearModal();
+    //Очищаем модальное окно
+    clearModal();
 
-      //Обновляем страницу
-      location.reload();
-    });
-
-    //Выход из формы модального окна
-    exitPlanButtonEl.addEventListener("click", () => {
-      clearModal();
-      closeModal();
-    });
+    //Обновляем страницу
+    location.reload();
   });
-});
+
+  //Выход из формы модального окна
+  exitPlanButtonEl.addEventListener("click", () => {
+    clearModal();
+    closeModal();
+  });
+};
 
 //Редактирование плана
 const editPlanButtonEls = document.querySelectorAll(".editPlan");
@@ -562,11 +572,11 @@ editPlanButtonEls.forEach((button) => {
       <h1 class="title">Редактирование дела</h1>
       <div class="forma">
         <div class="form__item">
-          <textarea class="planText" cols="50" rows="10" autocomplete="off"></textarea>
+          <textarea class="planText" name="planText" cols="50" rows="10" autocomplete="off"></textarea>
         </div>
 
         <div class="blockButtons">
-          <button class="btn addPlanBtn">Добавить</button>
+          <button class="btn addPlanBtn">Сохранить</button>
           <button class="btn exitPlanBtn">Выход</button>
         </div>
       </div>
@@ -667,7 +677,7 @@ deletePlanBtnEls.forEach((button) => {
 });
 
 //Получение индекса плана в списке дел
-function getIndexPlan(divItemEl) {
+const getIndexPlan = (divItemEl) => {
   let date = divItemEl.querySelector(".plan__date").textContent;
   let text = divItemEl.querySelector(".plan__text").textContent;
 
@@ -678,12 +688,12 @@ function getIndexPlan(divItemEl) {
       return i;
     }
   }
-}
+};
 
 //Сортировка массива планов
-function sortlistPlans(key) {
+const sortlistPlans = (key) => {
   listPlans.sort((plan1, plan2) => (plan1[key] > plan2[key] ? 1 : -1));
-}
+};
 
 //----------------------------------------------------------
 //Загрузка данных из файла
@@ -893,38 +903,44 @@ const saveFile = async (nameFile, fileData) => {
 };
 
 //Добавление новой записи через клавишу insert
-document.addEventListener("keydown", (e) => {
-  if ((e.code = "Insert")) {
-    //Вставляем в модальное окно вопрос о замене списка контактов
+addEventListener("keydown", (event) => {
+  if (event.code === "Insert") {
+    //Вставляем в модальное окно вопрос о том что создать
     const html = `
-    <h1 class="title">Выберите что создать?</h1>
-    <div class="forma">
-        
-      <select class="selectNewEl">
-        <option value="contact">Новый контакт</option>
-        <option value="plan">Новое дело</option>
-      </select>
+      <h1 class="title">Выберите что создать?</h1>
+      <div class="forma">
 
-      <div class="blockButtons">
-        <button class="btn selectElementBtn">Выбрать</button>
-        <button class="btn exitElementBtn">Выход</button>
+        <select class="selectNewEl" name="document" id="document">
+          <option value="plan">Новое дело</option>
+          <option value="contact">Новый контакт</option>
+        </select>
+
+        <div class="blockButtons">
+          <button class="btn selectElementBtn">Выбрать</button>
+          <button class="btn exitElementBtn">Выход</button>
+
+        </div>
 
       </div>
-
-    </div>
-`;
+      `;
     modalContentEl.innerHTML = html;
 
     openModal();
+    document.querySelector(".selectNewEl").focus();
 
     const selectElementBtn = document.querySelector(".selectElementBtn");
 
     selectElementBtn.addEventListener("click", () => {
       const newElement = document.querySelector(".selectNewEl").value;
-//Остановился здесь.
 
+      clearModal();
+      closeModal();
 
-      console.log(newElement);
+      if (newElement === "contact") {
+        createNewContact();
+      } else {
+        createNewPlan();
+      }
     });
 
     const exitElementBtnEl = document.querySelector(".exitElementBtn");
@@ -933,5 +949,7 @@ document.addEventListener("keydown", (e) => {
       clearModal();
       closeModal();
     });
+  } else {
+    console.log(`else ${event.code}`);
   }
 });
