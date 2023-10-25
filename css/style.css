@@ -15,14 +15,14 @@ body {
 }
 
 .left__block {
-  width: 70%;
+  width: 65%;
   border: 1px solid black;
   box-sizing: border-box;
   height: 100dvh;
 }
 
 .right__block {
-  width: 30%;
+  width: 35%;
   border: 1px solid black;
   box-sizing: border-box;
   height: 100dvh;
@@ -97,7 +97,7 @@ body {
 }
 
 .contact__position {
-  width: 10%;
+  width: 13%;
 }
 
 .contact__firmName {
@@ -109,7 +109,7 @@ body {
 }
 
 .contact__telephone {
-  width: 15%;
+  width: 12%;
 }
 
 .block__buttons__footer {
@@ -177,7 +177,7 @@ body {
 .modal__main {
   position: relative;
   max-width: 700px;
-  background-color: antiquewhite;
+  background-color: rgb(238, 238, 245);
   margin: auto;
   color: rgb(33, 10, 0);
   border-radius: 10px;
@@ -220,6 +220,7 @@ body {
   justify-content: center;
   gap: 80px;
   margin-top: 50px;
+  padding-bottom: 5px;
 }
 
 /* Планы */
@@ -250,12 +251,19 @@ body {
 }
 
 .plan__date {
-  width: 25%;
+  width: 24%;
   border-left: 1px dotted rgb(33, 10, 0);
 }
 
+.plan__checked {
+  width: 4%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .plan__text {
-  width: 75%;
+  width: 72%;
   text-align: start;
 }
 
@@ -264,8 +272,14 @@ body {
   padding-left: 5px;
   padding-right: 5px;
   color: rgb(33, 10, 0);
-  font-size: 16px;
+  font-size: 18px;
   border: none;
+}
+
+.priority {
+  font-weight: bold;
+  color: rgb(33, 10, 0);
+  background-color: rgb(238, 238, 245);
 }
 
 .selectNewEl,

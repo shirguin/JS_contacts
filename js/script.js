@@ -455,7 +455,12 @@ headingPlanEls.forEach((heading) => {
 
     //Находим ключ для сортировки
     const key = heading.classList[1].slice(6);
-    sortlistPlans(key);
+
+    if (key === "checked"){
+      sortListPlansByPriority();
+    }else{
+      sortlistPlans(key);
+    }
 
     localStorage.setItem("plans", JSON.stringify(listPlans));
     localStorage.setItem("plans_key_sort", key);
@@ -467,11 +472,19 @@ const divPlansEl = document.querySelector(".plans");
 
 //Выводим планы на экран
 listPlans.forEach((plan) => {
+  let checked = "";
+  let priority = "";
+  if (plan.priority) {
+    checked = "checked";
+    priority = "priority";
+  }
+
   const newPlanEl = document.createElement("div");
   newPlanEl.className = "plan__item";
   newPlanEl.innerHTML = `
-        <div class="column__plan plan__date">${plan.date}</div>
-        <div class="column__plan plan__text">${plan.text}</div>
+        <div class="column__plan plan__date ${priority}">${plan.date}</div>
+        <div class="column__plan plan__checked"><input class="plan__checkbox ${priority}" type="checkbox" name="checkbox" ${checked}/></div>
+        <div class="column__plan plan__text ${priority}">${plan.text}</div>
 
         <div class="item__buttons">
           <div class="icon__button">
@@ -530,6 +543,7 @@ const createNewPlan = () => {
       date: `${currentDate.toLocaleDateString().slice(0, 6)}${currentDate
         .toLocaleDateString()
         .slice(8, 10)} ${currentDate.toTimeString().slice(0, 5)}`,
+      priority: false,
       text: textareaEl.value,
     };
 
@@ -599,6 +613,7 @@ editPlanButtonEls.forEach((button) => {
     savePlanButtonEl.addEventListener("click", () => {
       let newPlan = {
         date: editplan.date,
+        priority: editplan.priority,
         text: textInputEl.value,
       };
 
@@ -694,6 +709,35 @@ const getIndexPlan = (divItemEl) => {
 const sortlistPlans = (key) => {
   listPlans.sort((plan1, plan2) => (plan1[key] > plan2[key] ? 1 : -1));
 };
+
+//Сортировка массива планов по приоретету
+const sortListPlansByPriority = ()=>{
+  sortlistPlans('date');
+
+
+  //Остановился здесь!!!
+  listPlans.sort((plan1, plan2)=>());
+}
+
+//Установка важности дел
+const checkboxEls = document.querySelectorAll(".plan__checkbox");
+checkboxEls.forEach((element) => {
+  element.addEventListener("change", (e) => {
+    const divItemEl = e.target.closest(".plan__item");
+    const index = getIndexPlan(divItemEl);
+    const currentPlan = listPlans[index];
+
+    if (e.target.checked) {
+      currentPlan.priority = true;
+    } else {
+      currentPlan.priority = false;
+    }
+
+    listPlans[index] = currentPlan;
+    localStorage.setItem("plans", JSON.stringify(listPlans));
+    location.reload();
+  });
+});
 
 //----------------------------------------------------------
 //Загрузка данных из файла
