@@ -446,29 +446,38 @@ addPlanButtonEls.forEach((element) => {
   });
 });
 
+//Формирование формы модального окна Плана
+const getPlanHtmlModal = (title, nameButton) => {
+  const html = `
+    <h1 class="title">${title}</h1>
+    <div class="forma">
+      <div class="form__item">
+        <textarea class="planText" name="planText" cols="50" rows="10" autocomplete="off"></textarea>
+      </div>
+
+      <div class="blockButtons">
+        <button class="btn savePlanBtn">${nameButton}</button>
+        <button class="btn exitPlanBtn">Выход</button>
+      </div>
+    </div>
+`;
+
+  return html;
+};
+
 //Функция создает новый план
 const createNewPlan = () => {
   //Вставляем в модальное окно форму для ввода нового плана
-  const html = `
-      <h1 class="title">Добавление нового дела</h1>
-      <div class="forma">
-        <div class="form__item">
-          <textarea class="planText" name="planText" cols="50" rows="10" autocomplete="off"></textarea>
-        </div>
-  
-        <div class="blockButtons">
-          <button class="btn addPlanBtn">Добавить</button>
-          <button class="btn exitPlanBtn">Выход</button>
-        </div>
-      </div>
-  `;
-  modalContentEl.innerHTML = html;
+  modalContentEl.innerHTML = getPlanHtmlModal(
+    "Добавление нового дела",
+    "Добавить"
+  );
 
   //открываем модальное окно
   openModal();
 
   //Добавление нового плана
-  const savePlanButtonEl = document.querySelector(".addPlanBtn");
+  const savePlanButtonEl = document.querySelector(".savePlanBtn");
   const exitPlanButtonEl = document.querySelector(".exitPlanBtn");
   const textareaEl = document.querySelector(".planText");
 
