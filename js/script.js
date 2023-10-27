@@ -133,49 +133,57 @@ addButtonEls.forEach((element) => {
   });
 });
 
+//Формирование формы модального окна Контакта
+const getContactHtmlModal = (title, nameButton) => {
+  const html = `
+  <h1 class="title">${title}</h1>
+  <div class="forma">
+    <div class="form__item">
+      <p class="label">Имя</p>
+      <input class="textInput" type="text" id="name" autocomplete="off"/>
+    </div>
+
+    <div class="form__item">
+      <p class="label">Фамилия</p>
+      <input class="textInput" type="text" id="surname" autocomplete="off"/>
+    </div>
+
+    <div class="form__item">
+      <p class="label">Должность</p>
+      <input class="textInput" type="text" id="position" autocomplete="off"/>
+    </div>
+
+    <div class="form__item">
+      <p class="label">Фирма</p>
+      <input class="textInput" type="text" id="firmName" autocomplete="off"/>
+    </div>
+
+    <div class="form__item">
+      <p class="label">Email</p>
+      <input class="textInput" type="email" id="email" autocomplete="off"/>
+    </div>
+
+    <div class="form__item">
+      <lp class="label">Телефон</lp>
+      <input class="textInput" type="text" id="telephone" autocomplete="off"/>
+    </div>
+
+    <div class="blockButtons">
+      <button class="btn saveContact">${nameButton}</button>
+      <button class="btn exit">Выход</button>
+    </div>
+  </div>  
+`;
+  return html;
+};
+
 //Функция создает новый контакт
 const createNewContact = () => {
   //Вставляем в модальное окно форму для ввода нового контакта
-  const html = `
-    <h1 class="title">Добавление контакта</h1>
-    <div class="forma">
-      <div class="form__item">
-        <p class="label">Имя</p>
-        <input class="textInput" type="text" id="name" autocomplete="off"/>
-      </div>
-
-      <div class="form__item">
-        <p class="label">Фамилия</p>
-        <input class="textInput" type="text" id="surname" autocomplete="off"/>
-      </div>
-
-      <div class="form__item">
-        <p class="label">Должность</p>
-        <input class="textInput" type="text" id="position" autocomplete="off"/>
-      </div>
-
-      <div class="form__item">
-        <p class="label">Фирма</p>
-        <input class="textInput" type="text" id="firmName" autocomplete="off"/>
-      </div>
-
-      <div class="form__item">
-        <p class="label">Email</p>
-        <input class="textInput" type="email" id="email" autocomplete="off"/>
-      </div>
-
-      <div class="form__item">
-        <lp class="label">Телефон</lp>
-        <input class="textInput" type="text" id="telephone" autocomplete="off"/>
-      </div>
-
-      <div class="blockButtons">
-        <button class="btn saveContact">Добавить</button>
-        <button class="btn exit">Выход</button>
-      </div>
-    </div>  
-  `;
-  modalContentEl.innerHTML = html;
+  modalContentEl.innerHTML = getContactHtmlModal(
+    "Добавление контакта",
+    "Добавить"
+  );
 
   //открываем модальное окно
   openModal();
@@ -239,46 +247,11 @@ editButtonEls.forEach((button) => {
     let indexEditContact = getIndex(divItemEl);
     const editContact = listContacts[indexEditContact];
 
-    const html = `
-          <h1 class="title">Редактирование контакта</h1>
-          <div class="forma">
-            <div class="form__item">
-              <p class="label">Имя</p>
-              <input class="textInput" type="text" id="name" autocomplete="off"/>
-            </div>
-
-            <div class="form__item">
-              <p class="label">Фамилия</p>
-              <input class="textInput" type="text" id="surname" autocomplete="off"/>
-            </div>
-
-            <div class="form__item">
-              <p class="label">Должность</p>
-              <input class="textInput" type="text" id="position" autocomplete="off"/>
-            </div>
-
-            <div class="form__item">
-              <p class="label">Фирма</p>
-              <input class="textInput" type="text" id="firmName" autocomplete="off"/>
-            </div>
-
-            <div class="form__item">
-              <p class="label">Email</p>
-              <input class="textInput" type="email" id="email" autocomplete="off"/>
-            </div>
-
-            <div class="form__item">
-              <lp class="label">Телефон</lp>
-              <input class="textInput" type="text" id="telephone" autocomplete="off"/>
-            </div>
-
-            <div class="blockButtons">
-              <button class="btn saveContact">Сохранить</button>
-              <button class="btn exit">Выход</button>
-            </div>
-          </div>
-  `;
-    modalContentEl.innerHTML = html;
+    //Вставляем в модальное окно форму для редактирования контакта
+    modalContentEl.innerHTML = getContactHtmlModal(
+      "Редактирование контакта",
+      "Сохранить"
+    );
 
     //Вставляем данные в форму
     const saveContactButtonEl = document.querySelector(".saveContact");
@@ -297,12 +270,12 @@ editButtonEls.forEach((button) => {
     emailInputEl.value = editContact.email;
     telephoneInputEl.value = editContact.telephone;
 
-    //открываем модальное окно
+    //Открываем модальное окно
     openModal();
 
     nameInputEl.focus();
 
-    //сохраняем отредактированные данные
+    //Сохраняем отредактированные данные
     saveContactButtonEl.addEventListener("click", () => {
       let newContact = {
         name: nameInputEl.value,
@@ -344,49 +317,14 @@ deleteButtonEls.forEach((button) => {
     let index = getIndex(divItemEl);
     let deleteContact = listContacts[index];
 
-    const html = `
-          <h1 class="title">Удалить контакт?</h1>
-          <div class="forma">
-            <div class="form__item">
-              <p class="label">Имя</p>
-              <input class="textInput" type="text" id="name" autocomplete="off"/>
-            </div>
-
-            <div class="form__item">
-              <p class="label">Фамилия</p>
-              <input class="textInput" type="text" id="surname" autocomplete="off"/>
-            </div>
-
-            <div class="form__item">
-              <p class="label">Должность</p>
-              <input class="textInput" type="text" id="position" autocomplete="off"/>
-            </div>
-
-            <div class="form__item">
-              <p class="label">Фирма</p>
-              <input class="textInput" type="text" id="firmName" autocomplete="off"/>
-            </div>
-
-            <div class="form__item">
-              <p class="label">Email</p>
-              <input class="textInput" type="email" id="email" autocomplete="off"/>
-            </div>
-
-            <div class="form__item">
-              <lp class="label">Телефон</lp>
-              <input class="textInput" type="text" id="telephone" autocomplete="off"/>
-            </div>
-
-            <div class="blockButtons">
-              <button class="btn deleteContact">Удалить</button>
-              <button class="btn exit">Выход</button>
-            </div>
-          </div>
-  `;
-    modalContentEl.innerHTML = html;
+    //Вставляем в модальное окно форму для удаления контакта
+    modalContentEl.innerHTML = getContactHtmlModal(
+      "Удалить контакт?",
+      "Удалить"
+    );
 
     //Вставляем данные в форму
-    const deleteContactButtonEl = document.querySelector(".deleteContact");
+    const deleteContactButtonEl = document.querySelector(".saveContact");
     const exitButtonEl = document.querySelector(".exit");
     const nameInputEl = document.querySelector("#name");
     const surnameInputEl = document.querySelector("#surname");
@@ -423,7 +361,7 @@ deleteButtonEls.forEach((button) => {
   });
 });
 
-//Правый блок (Планы)
+//Правый блок (Планы)-----------------------------------------------------------
 let listPlans = [];
 let keySortListPlans = "";
 
