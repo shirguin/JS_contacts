@@ -529,23 +529,14 @@ editPlanButtonEls.forEach((button) => {
     let indexEditPlan = getIndexPlan(divItemEl);
     const editplan = listPlans[indexEditPlan];
 
-    const html = `
-      <h1 class="title">Редактирование дела</h1>
-      <div class="forma">
-        <div class="form__item">
-          <textarea class="planText" name="planText" cols="50" rows="10" autocomplete="off"></textarea>
-        </div>
-
-        <div class="blockButtons">
-          <button class="btn addPlanBtn">Сохранить</button>
-          <button class="btn exitPlanBtn">Выход</button>
-        </div>
-      </div>
-  `;
-    modalContentEl.innerHTML = html;
+    //Вставляем в модальное окно форму для редактирования плана
+    modalContentEl.innerHTML = getPlanHtmlModal(
+      "Редактирование дела",
+      "Сохранить"
+    );
 
     //Вставляем данные в форму
-    const savePlanButtonEl = document.querySelector(".addPlanBtn");
+    const savePlanButtonEl = document.querySelector(".savePlanBtn");
     const exitButtonEl = document.querySelector(".exitPlanBtn");
     const textInputEl = document.querySelector(".planText");
 
@@ -595,24 +586,15 @@ deletePlanBtnEls.forEach((button) => {
     let index = getIndexPlan(divItemEl);
     let deletePlan = listPlans[index];
 
-    const html = `
-      <h1 class="title">Удалить запланированное дело?</h1>
-      <div class="forma">
-        <div class="form__item">
-          <textarea class="planText" cols="50" rows="10" autocomplete="off"></textarea>
-        </div>
-
-        <div class="blockButtons">
-          <button class="btn delPlan">Удалить</button>
-          <button class="btn exit">Выход</button>
-        </div>
-      </div>
-  `;
-    modalContentEl.innerHTML = html;
+    //Вставляем в модальное окно форму для удаления плана
+    modalContentEl.innerHTML = getPlanHtmlModal(
+      "Удалить запланированное дело?",
+      "Удалить"
+    );
 
     //Вставляем данные в форму
-    const deletePlanButtonEl = document.querySelector(".delPlan");
-    const exitButtonEl = document.querySelector(".exit");
+    const deletePlanButtonEl = document.querySelector(".savePlanBtn");
+    const exitButtonEl = document.querySelector(".exitPlanBtn");
     const textInputEl = document.querySelector(".planText");
 
     textInputEl.value = deletePlan.text;
