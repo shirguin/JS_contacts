@@ -10,6 +10,6 @@ Data about contacts and plans are stored in the browser's localStorage. The appl
 
 In order to familiarize yourself with the application and start using it, simply click on the link and save the page that opens in the browser bookmarks.
 
-shirguin.github.io/JS_contacts/
+[Contacts](shirguin.github.io/JS_contacts/)
 
 Installation is not required since the application is deployed on GitHub hosting.
