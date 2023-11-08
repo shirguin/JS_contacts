@@ -634,9 +634,20 @@ const getIndexPlan = (divItemEl) => {
   }
 };
 
+//Получение объекта Date из строки
+const getDateFromStr = (str) => {
+  const stringDate = `20${str.slice(6,8)}-${str.slice(3,5)}-${str.slice(0,2)} ${str.slice(9,14)}`
+  const date = new Date(stringDate);
+  return date;
+};
+
 //Сортировка массива планов
 const sortlistPlans = (key) => {
-  listPlans.sort((plan1, plan2) => (plan1[key] > plan2[key] ? 1 : -1));
+  if (key === "date") {
+    listPlans.sort((plan1, plan2) => (getDateFromStr(plan1[key]) > getDateFromStr(plan2[key]) ? 1 : -1));
+  } else {
+    listPlans.sort((plan1, plan2) => (plan1[key] > plan2[key] ? 1 : -1));
+  }
 };
 
 //Сортировка массива планов по приоретету
